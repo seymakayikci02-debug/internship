@@ -1,0 +1,13 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+
+//Simple and gate
+
+module and_gate(
+    input a,b,  //Two inputs of and gate
+    output out  //Output of and gate
+    );
+    
+    assign out=a&b;  //Continuous assignment
+    
+endmodule
