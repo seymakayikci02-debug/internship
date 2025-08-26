@@ -1,0 +1,13 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+
+//Simple xor gate
+
+module xor_gate(
+    input a,b,  //Two inputs of xor gate
+    output out  //output of xor gate
+    );
+    
+    assign out=a^b; //continuous assignment
+    
+endmodule
