@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 
-//Simple full adder with structural model
+//Simple full adder using structural model
 
 module full_adder(
     input A,B,E0,
