@@ -1,0 +1,16 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+
+//Half adder with structural model
+
+module half_adder(
+    input A,B,  //Two inputs of half adder
+    output E,T  //E:1 bit carry of half adder    T=1 bit sum of half adder
+    );
+    
+   
+    xor_gate xor1(A,B,T);   //Instantiate XOR gate for Sum
+    and_gate and1(A,B,E);   //Instantiate AND gate for Carry
+  
+    
+endmodule
