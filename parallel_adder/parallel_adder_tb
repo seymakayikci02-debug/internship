@@ -1,0 +1,43 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+
+// Testbench for 4-bit Parallel Adder
+
+module parallel_adder_tb(
+
+    );
+    
+    // Testbench signals
+    wire [3:0] E;        // 4-bit input operands
+    reg [3:0] A,B;       // 4-bit sum output
+    wire [3:0] T ;       // Carry outputs
+    wire [4:0] sum;      // 5-bit total result (sum + carry-out)
+    
+    // Instantiate Device Under Test (DUT)
+    parallel_adder dut(E,A,B, T);
+   
+   // Connect DUT outputs into a single result bus to see overall sum.
+    assign sum[0]=T[0];     
+    assign sum[1]=T[1];
+    assign sum[2]=T[2];
+    assign sum[3]=T[3];
+    assign sum[4]=E[3];
+        
+    integer i;
+    
+    initial
+    begin
+    for(i=0;i<20;i=i+1)             // Run 20 random test cases
+        begin
+        A=$urandom_range(15,0);     // Random 4-bit value for A from 0 to 15 decimal number.
+        B=$urandom_range(15,0);     // Random 4-bit value for B from 0 to 15 decimal number.
+        
+        
+        #10;    // Wait 10 ns
+      
+       
+        end
+      $finish;      //end simulation
+    end
+    
+endmodule
