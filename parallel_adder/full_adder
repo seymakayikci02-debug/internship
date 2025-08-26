@@ -1,0 +1,24 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+
+//Full adder with structural model
+
+module full_adder(
+    input A,B,E0,   
+    output E1,T     
+    );
+    
+//   A  : 1-bit input
+//   B  : 1-bit input
+//   E0 : 1-bit carry-in
+//   E1 : 1-bit carry-out
+//   T  : 1-bit sum
+    
+    wire w1,w2,w3;              // Internal wires to connect outputs of gates
+    xor_gate xor1(A,B,w1);      // First XOR: partial sum of A and B
+    and_gate and1(A,B,w2);      // First AND: carry from A and B
+    xor_gate xor2(w1,E0,T);     // Second XOR: final sum = (A ⊕ B) ⊕ E0
+    and_gate and2(w1,E0,w3);    // Second AND: carry from (A ⊕ B) and E0
+    or_gate or1(w3,w2,E1);      // OR gate: final carry = (A·B) + ((A⊕B)·E0)
+    
+endmodule
