@@ -1,0 +1,12 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+
+//Simple or gate
+
+module or_gate(
+    input a,b,  //Two inputs of or gate
+    output out  //Output of or gate
+    );
+    
+    assign out=a||b;    //Continuous assignment
+endmodule
