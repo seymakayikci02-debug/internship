@@ -1,0 +1,34 @@
+`timescale 1ns / 1ps
+///////////////////////////////////////////////////////////////////////////////////
+
+//Testbench for index_coder module
+
+module index_coder_tb(
+
+    );
+    reg [7:0] x;    // 8-bit test input
+    wire [2:0] z;   // 2-bit output from DUT
+    
+    // Instantiate Device Under Test (DUT)
+    index_coder dut(x,z);
+    
+    integer i,j;
+    
+    initial
+    begin
+    for(i=0;i<8;i=i+1)  // Loop through 8 different test cases
+        begin
+        
+        #10;            // wait 10 ns between test cases
+        
+        for(j=0;j<8;j=j+1)
+            begin
+            if(i==j) x[i]=1;        // set one bit high
+            else x[j]=0;            // keep others low
+            end
+        end
+    
+    $stop;           // end simulation
+    end
+    
+endmodule
