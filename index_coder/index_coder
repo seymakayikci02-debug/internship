@@ -1,0 +1,24 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+
+//OR Gate Network
+
+module index_coder(
+    input [7:0] x,  // 8-bit input
+    output [2:0] z  // 2-bit output
+    );
+    
+    wire [4:0] w;   // Internal wires to connect OR gate outputs
+    
+    // OR gate instantiations
+    or_gate or1(x[7],x[6],w[0]);    // w0 = x7 OR x6 
+    or_gate or2(x[5],x[4],w[1]);    // w1 = x5 OR x4
+    or_gate or3(x[3],x[2],w[2]);    // w2 = x3 OR x2
+    or_gate or4(x[3],x[1],w[3]);    // w3 = x1 OR x0
+    or_gate or5(x[7],x[5],w[4]);    // w4 = x7 OR x5
+    or_gate or6(w[0],w[1],z[2]);    // z1 = w0 OR w1
+    or_gate or7(w[0],w[2],z[1]);    // z1 = z1 OR w2
+    or_gate or8(w[4],w[3],z[0]);    // z0 = w4 OR w3
+    
+   
+endmodule
