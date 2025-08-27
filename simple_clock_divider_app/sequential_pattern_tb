@@ -1,0 +1,19 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+
+//Testbench for sequential pattern
+
+module clock_test_tb(
+
+    );
+    
+    //signals
+       
+    wire [2:0] led;
+    reg clk=0;
+    
+    clock_test dut(clk,led);    //Design module instantiation   
+    
+    always #1000000 clk=~clk;   //clock generation
+    
+endmodule
