@@ -23,7 +23,9 @@ module even_parity(
     reg [27:0] count=0; //counter of clock divider
     reg [2:0] nstate;   //3-bit nextstate;
     reg temp_out;       //temporary output
+
     // State encodings
+
     parameter A=3'b000;
     parameter B=3'b010;
     parameter C=3'b011;
@@ -38,7 +40,7 @@ module even_parity(
 always@(posedge clk)
     begin
     
- //reset case initilation  
+ //reset case initialization  
       
         if(rst) 
         begin
