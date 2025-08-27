@@ -1,0 +1,37 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+
+//Sequential pattern design module-000-001-011-111
+
+module clock_test(
+    input clk,
+    output reg [2:0] led=3'b000
+    );
+    
+    reg [27:0] count=0;
+    
+    always@(posedge clk)
+ 
+    begin 
+    if (count == 28'd150_000_000)       //clock divider. LED blinks every 3 seconds
+    begin
+        count   <= 0;
+        case(led)       //FSM for sequential pattern without reset
+        
+        3'b000: led<=3'b001;
+        3'b001: led<=3'b011;
+        3'b011: led<=3'b111;
+        3'b111: led<=3'b000;   
+        default: led<=3'b000;
+        
+        endcase
+    end
+    
+    else
+        begin
+        count   <= count + 1'b1;           
+        end
+    
+    end
+    
+endmodule
