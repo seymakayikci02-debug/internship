@@ -1,0 +1,26 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+
+//Testbench for clock divider
+
+module clock_divider_tb(
+
+    );
+//clock divider signals
+    wire clock_out;
+    reg clk=0;
+    reg reset;
+    
+    clock_divider dut(clock_out,clk,reset);     //clock divider module instantiation
+    
+    always #10 clk=~clk;    //clock generation
+    
+    initial
+    begin
+    reset=1;
+    #5000000;   //delay
+    reset=0;
+    
+    end
+    
+endmodule
