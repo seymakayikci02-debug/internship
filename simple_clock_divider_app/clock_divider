@@ -1,0 +1,27 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+
+//basic clock divider implementation
+
+module clock_divider(
+    output reg clock_out,   //Output of system(LED)
+    input clk,  
+    input reset
+    );
+    
+    reg [26:0] count;   
+    
+    always @(posedge clk or posedge reset)
+    begin
+        if(reset) begin     //reset block
+            count   <= 0;
+            clock_out <= 0;
+            
+        end else if (count == 27'd50_000_000) begin     //With vivado's default 100 MHz clock frequency
+            count   <= 0;                               // the count variable is set to count up to 50,000,000,
+            clock_out <= ~clock_out;                    // which makes the LED blink every 1 second.
+        end else begin
+            count   <= count + 1'b1;                    
+        end 
+    end
+endmodule
