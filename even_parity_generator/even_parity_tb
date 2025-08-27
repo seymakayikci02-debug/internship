@@ -1,1 +1,55 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
 
+//Testbench for even parity module
+
+module even_parity_tb(
+
+    );
+    
+    //Testbench signals
+    
+    reg clk=0;
+    wire [2:0] nstate,state;
+    reg rst,in;
+    wire out;
+    
+    even_parity dut(clk,state,rst,in,out);      //Testbench instantiation
+    
+    always #10 clk=~clk;    //Clock generation
+    
+    //reset and input signals at different delay time units
+    
+    initial
+    begin
+    in=0;
+    rst=1;
+    #30;
+    rst=0;
+    #25;
+    in=1;
+    #20;
+    in=0;
+    #5;
+    in=1;
+    #35;
+    in=0;
+    #15;
+    in=1;
+    #35;
+    in=0;
+    #10;
+    in=1;
+    #10;
+    in=0;
+    #15;
+    in=1;
+    #25;
+    in=0;
+    #25;
+    in=1;
+    $finish;
+    
+    end
+       
+endmodule
