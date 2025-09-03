@@ -1,4 +1,7 @@
 
+//programda run'a bas. mavi işik yanmişsa programlıyor demektir. biraz bekle. program girişinden kabloyu çikart. mavi işik sönmememli. uart girişine tak. hem mavi işik hem de uart girişindeki turuncu işik yanmalı.
+//putty ya da tera term u çalıştır. 
+//putty için sol tarafta seriala gel bu bilgisayar için com5 yaz 115200 ve 8 bit, 1 stop,none,flow control xon xoff çalıştır.
 #include <stdio.h>
 #include "platform.h"
 #include "xil_printf.h"
@@ -36,10 +39,12 @@ int main(void)
 
 
 
+
  while (1) {
 
         switch_value=XGpio_DiscreteRead(&Gpio, SW_CHANNEL);
         XGpio_DiscreteWrite(&Gpio, LED_CHANNEL, switch_value);
+        xil_printf("checked! %x\n\r",switch_value);
  }
 
     cleanup_platform();
