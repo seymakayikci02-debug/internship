@@ -42,9 +42,9 @@ int main(){
 	Xil_DCacheFlushRange((UINTPTR)a,8*sizeof(u32));     // Flush cache for source buffer so DDR has updated values
 
     // Start S2MM (Stream to Memory) transfer: stream → buffer b[]
-	status = XAxiDma_SimpleTransfer(&myDma, (UINTPTR)b, 8*sizeof(u32),XAXIDMA_DEVICE_TO_DMA);
+	status = XAxiDma_SimpleTransfer(&myDma, (UINTPTR)b, 8*sizeof(u32),XAXIDMA_DEVICE_TO_DMA);	//First transmitting part of DMA should be activated.
     // Start MM2S (Memory to Stream) transfer: buffer a[] → stream       
-	status = XAxiDma_SimpleTransfer(&myDma, (UINTPTR)a, 8*sizeof(u32),XAXIDMA_DMA_TO_DEVICE);//typecasting in C/C++
+	status = XAxiDma_SimpleTransfer(&myDma, (UINTPTR)a, 8*sizeof(u32),XAXIDMA_DMA_TO_DEVICE);//typecasting in C/C++ //Then data can be sent
 	
     if(status != XST_SUCCESS){
 		print("DMA initialization failed\n");
