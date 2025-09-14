@@ -1,0 +1,38 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module my_mult#(parameter DATA_WIDTH=8)(
+    input axi_clk,
+    input axi_rst,   
+    input s0_axis_valid,
+    output s0_axis_ready,
+    input [DATA_WIDTH-1:0] s0_axis_data,   
+    output reg m_axis_valid,
+    input m_axis_ready,
+    output reg [2*DATA_WIDTH-1:0] m_axis_data, 
+    input s1_axis_valid,
+    output s1_axis_ready,
+    input [DATA_WIDTH-1:0] s1_axis_data
+    );
+    
+     integer i;
+    
+    assign s0_axis_ready=m_axis_ready;   //s_axis_ready is output because your module must tell the upstream block when it can take data.
+    assign s1_axis_ready=m_axis_ready;
+    always@(posedge axi_clk)
+    begin
+    
+        if(s0_axis_ready & s0_axis_valid & s1_axis_ready & s1_axis_valid)
+        begin           
+                m_axis_data <= (s0_axis_data) * (s1_axis_data);           
+        end
+end    
+    
+    
+    always@(posedge axi_clk)
+    begin
+        m_axis_valid<=s0_axis_valid & s1_axis_valid;
+    
+    end
+endmodule
