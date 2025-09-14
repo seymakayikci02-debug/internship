@@ -1,0 +1,51 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+
+module my_accum #(
+    parameter DATA_WIDTH = 8
+)(
+    input                       axi_clk,
+    input                       axi_rst,
+
+    input                       s_axis_valid,
+    output                      s_axis_ready,
+    input      [2*DATA_WIDTH-1:0] s_axis_data,
+    input                       s_axis_last,    // << end of frame
+
+    output reg                  m_axis_valid,
+    input                       m_axis_ready,
+    output reg [4*DATA_WIDTH-1:0] m_axis_data,
+    output reg                   m_axis_tlast
+);
+    //reg tlast_d;
+    reg [4*DATA_WIDTH-1:0] acc=0;
+
+    // same style: upstream can send only when downstream is ready
+    assign s_axis_ready = m_axis_ready;
+    //assign m_axis_tlast  = tlast_d;
+    // accumulate inputs; on LAST, output one word and clear
+    always @(posedge axi_clk) begin
+        if (!axi_rst) begin
+            m_axis_tlast <= 0;
+            acc         <= {DATA_WIDTH{1'b0}};
+            m_axis_data <= {DATA_WIDTH{1'b0}};
+        end else if (s_axis_valid & s_axis_ready) begin
+            m_axis_tlast <= s_axis_last;    
+            if (s_axis_last) begin
+                m_axis_data <= acc + {{16{s_axis_data[15]}}, s_axis_data};   // include last beat
+                acc         <= {DATA_WIDTH{1'b0}};  // clear for next frame
+            end else begin
+                acc <= acc + {{16{s_axis_data[15]}}, s_axis_data};
+            end
+        end
+    end
+
+    // valid only on the LAST beat we accept (one-cycle pulse)
+    always @(posedge axi_clk) begin
+        if (!axi_rst)
+            m_axis_valid <= 1'b0;
+        else
+            m_axis_valid <= s_axis_valid & s_axis_ready & s_axis_last;
+    end
+
+endmodule
