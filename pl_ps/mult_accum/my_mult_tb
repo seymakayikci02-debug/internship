@@ -1,0 +1,57 @@
+`timescale 1ns / 1ps
+
+module my_mult_tb(
+
+    );
+        
+    reg axi_clk=0;
+    reg axi_rst;
+    
+    reg s0_axis_valid; 
+    wire s0_axis_ready;
+    reg [7:0] s0_axis_data;
+    
+    wire m_axis_valid;
+    reg m_axis_ready;
+    wire [15:0] m_axis_data;
+    
+    reg s1_axis_valid; 
+    wire s1_axis_ready;
+    reg [7:0] s1_axis_data;
+    
+       my_mult dut(
+                  axi_clk,
+                  axi_rst,
+                  s0_axis_valid,
+                  s0_axis_ready,
+                  s0_axis_data, 
+                  m_axis_valid,
+                  m_axis_ready,
+                  m_axis_data,
+                  s1_axis_valid,
+                  s1_axis_ready,
+                  s1_axis_data   
+   );
+   
+   
+   always #10 axi_clk=~axi_clk;
+   
+   initial
+   begin
+   axi_rst=1;
+   s0_axis_valid=0;
+   s0_axis_data=0;
+   s1_axis_valid=0;
+   s1_axis_data=0;
+   m_axis_ready=0;
+   #30;
+   s0_axis_valid=1;
+   s1_axis_valid=1;
+   s0_axis_data=4;
+   s1_axis_data=23;
+   #40;
+   m_axis_ready=1;
+   
+   end
+   
+endmodule
