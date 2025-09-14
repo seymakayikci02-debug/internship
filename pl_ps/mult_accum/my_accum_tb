@@ -1,0 +1,76 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+
+module my_accum_tb(
+
+    );
+
+    
+    reg axi_clk=0;
+    reg axi_rst=0;
+    
+    reg s_axis_valid; 
+    wire s_axis_ready;
+    reg [15:0] s_axis_data;
+    reg s_axis_last;
+    wire m_axis_valid;
+    reg m_axis_ready;
+    wire [15:0] m_axis_data;
+
+    my_accum dut(
+                  axi_clk,
+                  axi_rst,
+                  s_axis_valid,
+                  s_axis_ready,
+                  s_axis_data, 
+                  s_axis_last,
+                  m_axis_valid,
+                  m_axis_ready,
+                  m_axis_data
+                 
+   );
+   
+   
+   always #10 axi_clk=~axi_clk;
+   
+   initial
+   begin
+   axi_rst=0;
+   s_axis_valid=0;
+   s_axis_data=0;
+   m_axis_ready=0;
+   #30;
+    
+   s_axis_valid=1;
+   axi_rst=1;
+ 
+   @(posedge axi_clk) m_axis_ready=1; 
+   s_axis_data=23;
+   @(posedge axi_clk) m_axis_ready=0; 
+   
+  
+   @(posedge axi_clk) m_axis_ready=1;
+   s_axis_data=1;   
+
+   @(posedge axi_clk) m_axis_ready=0; 
+   
+   
+   @(posedge axi_clk) m_axis_ready=1; 
+   s_axis_data=4;   
+
+   @(posedge axi_clk) m_axis_ready=0; 
+   
+   
+   @(posedge axi_clk) m_axis_ready=1;
+   s_axis_last=1; 
+   s_axis_data=13;
+   #40; 
+   @(posedge axi_clk) m_axis_ready=0;     
+   s_axis_last=0;
+   s_axis_data=1'bx;
+   #20;
+   $finish;
+   end
+   
+   
+endmodule
